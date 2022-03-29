@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="histogramLayout">
+        <attr name="postColor" format="color" />
+    </declare-styleable>
+</resources>
