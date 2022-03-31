@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SecondActivity">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.benxinm.androidround5.view.NineGridView
+        android:id="@+id/nineGridView"
+        android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="400dp"/>
     <Button

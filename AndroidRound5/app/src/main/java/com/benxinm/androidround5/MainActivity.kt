@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    /**
+     * 这里的多选框是用来测试用的，所有没有封装
+     */
     inner class SpinnerXMLSelectedListener(): AdapterView.OnItemSelectedListener{
         override fun onItemSelected(
             arg0: AdapterView<*>?, arg1: View?, arg2: Int,

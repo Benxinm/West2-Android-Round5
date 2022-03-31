@@ -15,7 +15,7 @@ class PostView:View {
     private var myRight=0f
     private var fatherHeight=0
     private var color=0
-    private var text:String?=null
+    private var text:String=""
     constructor(context: Context,left:Float,start:Float,right:Float,fatherHeight:Int):super(context){
         myLeft=left
         myStart=start
@@ -51,11 +51,13 @@ class PostView:View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)//TODO 3
         val paint=Paint()
+        paint.textSize=25f
+        if (this.text!=null){
+            canvas?.drawText(text,(myRight-myLeft)*0.2.toFloat(),(fatherHeight).toFloat()-process,paint)
+        }
         paint.color= color
         canvas?.drawRect(0f,fatherHeight-process,myRight-myLeft,fatherHeight.toFloat(), paint)
-        if (this.text!=null){
-//            canvas?.drawText(text,)
-        }
+
     }
     fun startAnimator(targetHeight:Float){
         val animator= ObjectAnimator.ofFloat(this,"process",0f,targetHeight)

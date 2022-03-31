@@ -72,13 +72,18 @@ class HistogramLayout:LinearLayout {
         canvas?.drawLine(xLocation, yLocation, xLocation+ mWidth, yLocation,paint)
         canvas?.drawLine(xLocation, yLocation, xLocation, yLocation- mHeight,paint)
     }
+
+    /**
+     *
+     */
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {//TODO 2
         layoutChildren((xLocation+gap).toInt(), (yLocation- mIntHeight).toInt(),(xLocation+gap).toInt()+ postWidth,
             yLocation.toInt(),false)
     }
-    fun start(color:Int?){
+    fun start(color:Int?,postHeight:String?){
         val view= PostView(this.context, xLocation+gap+(gap+ postWidth)* count, yLocation, xLocation+(gap+ postWidth)* (count+1),
             mIntHeight)
+        view.setText(postHeight)
         view.setColor(color)//Color
         addView(view, count)
         postViewList.add(count,view)
@@ -106,7 +111,7 @@ class HistogramLayout:LinearLayout {
                 }
             }
             postList.add(post)
-            start(color)
+            start(color,height)
         }
     }
     fun delete(index: String){
@@ -134,7 +139,7 @@ class HistogramLayout:LinearLayout {
         for (index in 0 until childCount){
             val child=getChildAt(index) as PostView
             child.layout(left+(gap.toInt()+ postWidth)*index,top,right+(gap.toInt()+ postWidth)*index,bottom)
-            tmp=postList[index].height/max* mIntHeight//TODO 1
+            tmp=postList[index].height/max* mIntHeight-20//TODO 1
             child.startAnimator(tmp)
         }
     }

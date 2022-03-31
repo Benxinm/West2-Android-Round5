@@ -19,7 +19,7 @@ import java.lang.RuntimeException
 import kotlin.math.sqrt
 
 /**
- * 九宫格主要是改造adapter实现的,实现了三个三个的点击接口
+ * 九宫格主要是改造adapter实现的,实现了三个的点击接口
  * 点击是显示详情，长按是删除，点击加号是添加图片
  * 展示图片的采用了dialog但是因为实现它需要context和activity
  * 为了整洁和减少未知bug放在了activity中
@@ -38,40 +38,23 @@ class SecondActivity : AppCompatActivity() {
         imageAdapter.setOnItemClickListener(object:ImageAdapter.OnItemClickListener{
             override fun onTakePhotoClick() {
                 imageList.add(R.drawable.number_seven)
+                nineGridView.layoutManager= imageAdapter.getGridLayoutManager(this@SecondActivity,imageList.size)
                 imageAdapter.notifyDataSetChanged()
             }
             override fun onItemLongClick(view: View?, position: Int) {
-                imageList.removeAt(recyclerView.getChildAdapterPosition(view!!))
+                imageList.removeAt(nineGridView.getChildAdapterPosition(view!!))
+                nineGridView.layoutManager= imageAdapter.getGridLayoutManager(this@SecondActivity,imageList.size)
                 imageAdapter.notifyDataSetChanged()
             }
-
             override fun onShowPhotoClick(view: View?) {
-                showMyDialog(imageList[recyclerView.getChildAdapterPosition(view!!)])
+                imageAdapter.showMyDialog(this@SecondActivity,window.decorView,imageList[nineGridView.getChildAdapterPosition(view!!)])
             }
         })
-        recyclerView.layoutManager= GridLayoutManager(this, 3 )
-        recyclerView.adapter=imageAdapter
+        nineGridView.layoutManager= imageAdapter.getGridLayoutManager(this,imageList.size)
+        nineGridView.setAdapter(imageAdapter)
         toLoginActivity.setOnClickListener {
             val intent=Intent(this,LoginActivity::class.java)
             startActivity(intent)
-        }
-    }
-    fun showMyDialog(url:Int){
-        try {
-            val popView= LayoutInflater.from(this).inflate(R.layout.dialog_image,null)
-            val dialogImageView=popView.findViewById<ImageView>(R.id.iv_dialog_image)
-            Glide.with(this).load(url).into(dialogImageView)
-            val popupDialog=PopupWindow(popView,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
-            popupDialog.setOutsideTouchable(true)
-            popupDialog.setFocusable(true)
-            if (popupDialog!=null&& !popupDialog.isShowing){
-                popupDialog.animationStyle=R.style.dialog_anim
-                popupDialog.showAtLocation(window.decorView,
-                    Gravity.CENTER, 0, 0)
-                popupDialog.setFocusable(true)
-            }
-        }catch (e:Exception){
-            throw RuntimeException(e)
         }
     }
 }

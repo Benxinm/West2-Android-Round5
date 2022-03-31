@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.benxinm.androidround5.R
@@ -30,4 +32,22 @@ class LoginView:LinearLayout {
         val intent=Intent(context,activity.javaClass)
         context.startActivity(intent)
     }
+    /**
+     * 图片设置
+     */
+    fun setImage(context: Context,url:Int,imageView: ImageView){
+        Glide.with(context).load(url).into(imageView)
+    }
+
+    /**
+     * 取不到值
+    fun getAccount():String{
+        val ac=findViewById<EditText>(R.id.loginAc)
+        return ac.text.toString()
+    }
+    fun getPassword():String{
+        val psd=findViewById<EditText>(R.id.loginPsd)
+        return psd.text.toString()
+    }
+    */
 }
