@@ -1,22 +1,12 @@
 package com.benxinm.androidround5
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
-import android.widget.PopupWindow
-import android.widget.ViewFlipper
-import androidx.recyclerview.widget.GridLayoutManager
-import com.benxinm.androidround5.view.adapter.ImageAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.benxinm.androidround5.view.NineGridView
+import com.benxinm.androidround5.view.NineGridView.ImageAdapter
 import kotlinx.android.synthetic.main.activity_second.*
-import java.lang.Exception
-import java.lang.RuntimeException
-import kotlin.math.sqrt
 
 /**
  * 九宫格主要是改造adapter实现的,实现了三个的点击接口
@@ -34,8 +24,8 @@ class SecondActivity : AppCompatActivity() {
         repeat(4){
             imageList.add(R.drawable.number_seven)
         }
-        val imageAdapter=ImageAdapter(this,imageList)
-        imageAdapter.setOnItemClickListener(object:ImageAdapter.OnItemClickListener{
+        val imageAdapter= NineGridView(this).ImageAdapter(this, imageList)
+        imageAdapter.setOnItemClickListener(object: NineGridView.OnItemClickListener{
             override fun onTakePhotoClick() {
                 imageList.add(R.drawable.number_seven)
                 nineGridView.layoutManager= imageAdapter.getGridLayoutManager(this@SecondActivity,imageList.size)
