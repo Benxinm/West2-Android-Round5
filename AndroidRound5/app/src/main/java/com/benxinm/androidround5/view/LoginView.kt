@@ -14,13 +14,8 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.login_view.view.*
 
 class LoginView:LinearLayout {
-
-    constructor(context: Context):super(context){
-
-    }
-    constructor(context: Context, attrs: AttributeSet):super(context,attrs){
-
-    }
+    constructor(context: Context):super(context)
+    constructor(context: Context, attrs: AttributeSet):super(context,attrs)
     init {
        LayoutInflater.from(context).inflate(R.layout.login_view,this)
     }

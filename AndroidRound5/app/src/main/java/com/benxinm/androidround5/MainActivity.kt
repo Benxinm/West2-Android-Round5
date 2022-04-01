@@ -41,10 +41,15 @@ class MainActivity : AppCompatActivity() {
             val deletePosition=deletePositionView.text.toString()
             myLayout.delete(deletePosition)
         }
+        button3.setOnClickListener {
+            myLayout.setBottomTextVisible()
+            myLayout.setLeftTextVisible()
+        }
         toNextActivity.setOnClickListener{
             val intent=Intent(this,SecondActivity::class.java)
             startActivity(intent)
         }
+        ToastUtils.show("宽度推荐使用50左右的值，不设置将使用默认值")
     }
 
     /**

@@ -49,6 +49,12 @@
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:text="删除"/>
+        <Button
+            android:id="@+id/button3"
+            android:layout_marginLeft="20dp"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="点一下"/>
     </LinearLayout>
     <Button
         android:id="@+id/toNextActivity"

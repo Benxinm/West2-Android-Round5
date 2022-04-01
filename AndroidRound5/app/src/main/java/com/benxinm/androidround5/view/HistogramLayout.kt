@@ -1,10 +1,7 @@
 package com.benxinm.androidround5.view
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -15,9 +12,11 @@ import com.benxinm.androidround5.bean.Post
 import com.hjq.toast.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.view.*
 import java.lang.Exception
+import kotlin.concurrent.thread
 
 /**
  *这里我无法实现在一个view上实现柱形图的动画,所以继承了layout并在上面添加postView
+ *文字设置了设置内容、大小和能否可见的接口
  */
 class HistogramLayout:LinearLayout {
     constructor(context:Context):super(context){
@@ -33,9 +32,14 @@ class HistogramLayout:LinearLayout {
         var mWidth=0f
         var gap=20f
         var count=0
-        var postWidth=30
+        var postWidth=50
         var mIntHeight=0
         var minimumGap=10
+        var textSize=40f
+        var bottomTextVisible=true
+        var leftTextVisible=true
+        var bottomText="测试用的表"
+        var leftText="测试用的竖轴"
         private var postList = mutableListOf<Post>()
         private val postViewList= mutableListOf<PostView>()
         var flag=true
@@ -67,6 +71,26 @@ class HistogramLayout:LinearLayout {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val paint= Paint()
+        /**这里是按照比例来算的*/
+        if (bottomTextVisible){
+            paint.textSize= textSize
+            val rect= Rect()
+            paint.getTextBounds(bottomText,0, bottomText.length,rect)
+            val wordsLength= rect.width()
+            Log.d("555",wordsLength.toString())
+            val wordsHeight= rect.height()
+            canvas?.drawText(bottomText, xLocation+ mWidth/2-wordsLength/2, yLocation+wordsHeight+wordsHeight/4,paint)
+        }
+        if (leftTextVisible){
+            paint.textSize= textSize
+            val rect= Rect()
+            paint.getTextBounds(leftText,0, leftText.length,rect)
+            val wordsLength= rect.width()*3
+            val wordsHeight= rect.height()
+            val path=Path()
+            path.lineTo(0f,wordsLength.toFloat())
+            canvas?.drawTextOnPath(leftText,path, yLocation- mHeight*0.75.toFloat(), -(xLocation-wordsHeight-wordsHeight/3),paint)
+        }
         paint.style=Paint.Style.STROKE
         paint.strokeWidth=5f
         canvas?.drawLine(xLocation, yLocation, xLocation+ mWidth, yLocation,paint)
@@ -102,12 +126,17 @@ class HistogramLayout:LinearLayout {
                 return
             }
             if (width!=null){
-                try {
-                    val trans2Int=width.toInt()
-                    setPostWidth(trans2Int)
-                }catch (e:Exception){
-                    ToastUtils.show("输入的宽度不合法请重新输入")
-                    return
+                when(width){
+                    ""->ToastUtils.show("使用默认宽度")
+                    else->{
+                        try {
+                            val trans2Int=width.toInt()
+                            setPostWidth(trans2Int)
+                        }catch (e:Exception){
+                            ToastUtils.show("输入的宽度不合法请重新输入")
+                            return
+                        }
+                    }
                 }
             }
             postList.add(post)
@@ -145,6 +174,31 @@ class HistogramLayout:LinearLayout {
     }
     fun setPostWidth(width: Int){
         postWidth=width
+    }
+    fun setTextSize(size:Float){
+        textSize=size
+    }
+    fun setBottomText(text: String?){
+        if (text!=null){
+            bottomText=text
+        }
+    }
+    fun setLeftText(text: String?){
+        if (text!=null){
+            leftText=text
+        }
+    }
+    fun setBottomTextVisible(){
+        bottomTextVisible=!bottomTextVisible
+        thread {
+            invalidate()
+        }
+    }
+    fun setLeftTextVisible(){
+        leftTextVisible=!leftTextVisible
+        thread {
+            invalidate()
+        }
     }
     //设定最小间距
     fun setMinimumGap(gap:Int){

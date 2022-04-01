@@ -57,7 +57,6 @@ class PostView:View {
         }
         paint.color= color
         canvas?.drawRect(0f,fatherHeight-process,myRight-myLeft,fatherHeight.toFloat(), paint)
-
     }
     fun startAnimator(targetHeight:Float){
         val animator= ObjectAnimator.ofFloat(this,"process",0f,targetHeight)
